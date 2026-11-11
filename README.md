@@ -1,7 +1,6 @@
 # Disjunktiv und Edge-Finding – Schlüsse über Maschinen – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-disjunktiv-edge-finding-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-disjunktiv-edge-finding-demo.streamlit.app/)**
 
 Stück der Linie **SAT und Constraint Programming** (CP-Arm) in der „Konzepte“-Reihe für die Website „Sebastian Hanisch – Operations Research und Machine Learning“. Anders als die Fall-Demos zeigt sie **eine Frage der Constraint-Programmierung** an einem wachsenden Beispiel: Aus der Bedingung „höchstens eine Operation je Maschine“ wird **Suche**. Wie viel Suche, hängt davon ab, wie viel die Propagation nach jeder Entscheidung schon ausschließt. Das Vehikel ist der **Job Shop** (Aufträge mit fester Maschinenfolge, Ziel: kleinster Makespan); Verwandte sind [job-shop-demo](https://github.com/sebastian-hanisch/job-shop-demo), [shifting-bottleneck-demo](https://github.com/sebastian-hanisch/shifting-bottleneck-demo) und [job-shop-tabu-demo](https://github.com/sebastian-hanisch/job-shop-tabu-demo), die dasselbe Modell mit Heuristiken lösen; hier geht es um die **Propagation im Inneren**, mit Beweis bis zum Optimum.
 
