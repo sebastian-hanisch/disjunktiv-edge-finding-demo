@@ -13,6 +13,7 @@ import dje_algorithm as A
 import dje_aufzaehlung as Z
 import dje_constants as C
 import dje_evaluation as ev
+import dje_live as L
 from dje_layout import dunkles_design, kopf_css
 from dje_presets import (
     bounds,
@@ -53,18 +54,6 @@ def _handbeispiel_knoten(H):
 @st.cache_data(show_spinner=False)
 def _aufzaehlung():
     return Z.aufzaehlen(HANDBEISPIEL)
-
-
-@st.cache_data(show_spinner=False)
-def _live(jobs, machines, dmax, seed, budget):
-    return ev.live_vergleich(ev.Settings(jobs, machines, dmax, seed, budget))
-
-
-@st.cache_data(show_spinner=False)
-def _tail_live(budget):
-    sw = ev.lade_sweeps()["tail"]
-    inst = ev.tail_instanz(sw)
-    return {s: A.loese(inst, s, budget=budget) for s in (1, 2)}
 
 
 DATA = ev.lade_sweeps()
@@ -200,10 +189,9 @@ st.markdown("**Eine Einzelinstanz live rechnen** (Aufträge, Maschinen, Dauer un
 live_key = (int(jobs), int(machines), int(dmax), int(seed), int(budget))
 if st.button(f"Rechnen: {jobs} × {machines}, Zufalls-Seed {seed}, Budget {_zahl(budget)}", key="live_knopf"):
     st.session_state["live_key"] = live_key
-    with st.spinner("Rechnet die Stufen 0, 1 und 2 bis zum Beweis des Optimums … (Sekunden bis rund eine Minute, je nach Größe und Budget)"):
-        _live(*live_key)
+    L.stufen_einzel(live_key)
 if st.session_state.get("live_key") == live_key:
-    erg = _live(*live_key)
+    erg = L.einzel_aus_speicher(live_key)
     st.markdown(_md_table(["Stufe", "Knoten", "Fehlschläge", "Runden", "Edge-Finding-Aufrufe", "bester Makespan", "bewiesen"],
                           [[C.STAGE_NAMES[s], _zahl(e.z.knoten), _zahl(e.z.fehlschlaege), _zahl(e.z.runden), _zahl(e.z.ef_aufrufe), e.optimum, "ja" if e.bewiesen else "nein (Abbruch)"] for s, e in erg.items()]))
     kind, text = ev.verdict_einzel(erg, int(budget))
@@ -230,10 +218,9 @@ kind, text = ev.verdict_tail(sw, REIHEN["8x8"])
 getattr(st, kind)(text)
 if st.button(f"Live nachrechnen (Budget {_zahl(C.TAIL_BUDGET)})", key="tail_knopf"):
     st.session_state["tail_live"] = True
-    with st.spinner("Rechnet Stufe 1 und Stufe 2 auf dem eingefrorenen Fall … (einige Sekunden bis rund eine Minute)"):
-        _tail_live(C.TAIL_BUDGET)
+    L.tail(C.TAIL_BUDGET)
 if st.session_state.get("tail_live"):
-    ergs = _tail_live(C.TAIL_BUDGET)
+    ergs = L.tail_aus_speicher(C.TAIL_BUDGET)
     st.markdown(_md_table(["Stufe", "Knoten", "bewiesen", "bester Makespan"], [[C.STAGE_NAMES[s], _zahl(e.z.knoten), "ja" if e.bewiesen else "nein (Abbruch)", e.optimum] for s, e in ergs.items()]))
 
 st.markdown("---")

@@ -110,10 +110,19 @@ def tail_abbrueche(sw: dict) -> tuple[int, int]:
 
 
 # ------------------------------------------------------------------------------------------------------------------------------ Live-Läufe
+def live_stufe(s: Settings, stufe: int):
+    """Eine Stufe auf der Einzelinstanz (eine Einheit von `live_vergleich`)."""
+    return A.loese(instanz(s), stufe, budget=s.budget)
+
+
 def live_vergleich(s: Settings, stufen=(0, 1, 2)) -> dict:
     """Die Einzelinstanz mit allen Stufen bis zum bewiesenen Optimum (oder bis zum Knotenbudget)."""
-    inst = instanz(s)
-    return {st: A.loese(inst, st, budget=s.budget) for st in stufen}
+    return {st: live_stufe(s, st) for st in stufen}
+
+
+def tail_stufe(budget: int, stufe: int):
+    """Eine Stufe auf dem eingefrorenen Tail-Fall (eine Einheit des Live-Nachrechnens in Experiment 3)."""
+    return A.loese(tail_instanz(lade_sweeps()["tail"]), stufe, budget=budget)
 
 
 def widerspruch_im_optimum(erg: dict) -> bool:

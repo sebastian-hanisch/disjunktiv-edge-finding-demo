@@ -105,6 +105,7 @@ Edge-Finding und der Θ-Λ-Baum sind Verfahren der Constraint-Programmierung fü
 | `dje_constants.py` | Regler-Grenzen, Messreihen-Parameter, Farben, Presets |
 | `dje_evaluation.py` | Statistik der Messreihen, Live-Vergleich, Verdikte |
 | `dje_layout.py` | Fester Kopf (Stylesheet) |
+| `dje_live.py` | Live-Knöpfe: Zwischenspeicher (`st.cache_data`, je Einheit) und Fortschrittsanzeige (zählt die fertigen Einheiten) |
 | `dje_presets.py` | Permalink (Begrenzen), Presets (Schnellstart in der Seitenleiste, aktives Preset hervorgehoben), Zufalls-Seed-Button |
 | `dje_rng.py` | wörtlicher Auszug: SplitMix64 aus reduktionskette-demo |
 | `dje_scenario.py` | Instanzen, Handbeispiel, Dispatching-Plan |
